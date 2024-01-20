@@ -1,18 +1,36 @@
+import math
+import time
+
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 
 browser = webdriver.Chrome()
 
+
+def calc(x: str) -> str:
+    return str(math.log(abs(12*math.sin(int(x)))))
+
+
 try:
-    browser.get("https://suninjuly.github.io/math.html")
-    people_radio = browser.find_element(By.ID, "peopleRule")
-    people_checked = people_radio.get_attribute("checked")
-    print("value of people radio: ", people_checked)
-    assert people_checked is not None, "People radio is selected by default"
-    people_radio = browser.find_element(By.ID, "robotsRule")
-    people_checked = people_radio.get_attribute("checked")
-    print("value of people radio: ", people_checked)
-    assert people_checked is None, "Robots is not selected by default"
+    browser.get("https://suninjuly.github.io/get_attribute.html")
+
+    treasure = browser.find_element(By.ID, "treasure")
+    valuex = treasure.get_attribute("valuex")
+
+    y = calc(valuex)
+    input1 = browser.find_element(By.ID, "answer")
+    input1.send_keys(y)
+
+    robots_rule = browser.find_element(By.ID, 'robotsRule')
+    robots_rule.click()
+
+    robot_checkbox = browser.find_element(By.ID, "robotCheckbox")
+    robot_checkbox.click()
+
+    submit = browser.find_element(By.CLASS_NAME, "btn-default")
+    submit.click()
 
 finally:
-    pass
+    time.sleep(7)
+    browser.quit()
+
